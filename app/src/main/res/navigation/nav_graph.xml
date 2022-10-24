@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="isep.fr.moneytracker.FirstFragment"
+        android:name="isep.fr.moneytracker.Fragments.PreviewFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_preview">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="isep.fr.moneytracker.SecondFragment"
+        android:name="isep.fr.moneytracker.Fragments.HistoryFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_history">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

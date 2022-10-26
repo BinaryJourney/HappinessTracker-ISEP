@@ -27,6 +27,15 @@ public class PreviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+//        tvUltimatePurpose = binding.tvUltimatePurpose;
+//        tvPassion = binding.tvPassion;
+//        tvPleasure = binding.tvPleasure;
+//        tvBoring = binding.tvBoring;
+//        tvSadness = binding.tvSadness;
+//        tvHell = binding.tvBoring;
+//        pieChart = binding.piechart;
+//        setData();
+
         binding = FragmentPreviewBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -44,46 +53,37 @@ public class PreviewFragment extends Fragment {
                 new PieModel(
                         getResources().getString(R.string.pie_string_1),
                         Integer.parseInt(tvUltimatePurpose.getText().toString()),
-                        getResources().getColor(R.color.red_neutral_5)));
+                        getResources().getColor(R.color.red)));
         pieChart.addPieSlice(
                 new PieModel(
                         getResources().getString(R.string.pie_string_2),
                         Integer.parseInt(tvPassion.getText().toString()),
-                        getResources().getColor(R.color.red_neutral_4)));
+                        getResources().getColor(R.color.red_neutral_1)));
         pieChart.addPieSlice(
                 new PieModel(
                         getResources().getString(R.string.pie_string_3),
                         Integer.parseInt(tvPleasure.getText().toString()),
-                        getResources().getColor(R.color.red_neutral_3)));
+                        getResources().getColor(R.color.red_neutral_2)));
         pieChart.addPieSlice(
                 new PieModel(
                         getResources().getString(R.string.pie_string_4),
                         Integer.parseInt(tvBoring.getText().toString()),
-                        getResources().getColor(R.color.red_neutral_2)));
+                        getResources().getColor(R.color.red_neutral_3)));
         pieChart.addPieSlice(
                 new PieModel(
                         getResources().getString(R.string.pie_string_5),
                         Integer.parseInt(tvSadness.getText().toString()),
-                        getResources().getColor(R.color.red_neutral_1)));
+                        getResources().getColor(R.color.red_neutral_4)));
         pieChart.addPieSlice(
                 new PieModel(
                         getResources().getString(R.string.pie_string_6),
                         Integer.parseInt(tvHell.getText().toString()),
-                        getResources().getColor(R.color.red)));
+                        getResources().getColor(R.color.red_neutral_5)));
         pieChart.startAnimation();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        tvUltimatePurpose = binding.tvUltimatePurpose;
-        tvPassion = binding.tvPassion;
-        tvPleasure = binding.tvPleasure;
-        tvBoring = binding.tvBoring;
-        tvSadness = binding.tvSadness;
-        tvHell = binding.tvHell;
-        pieChart = binding.piechart;
-        setData();
 
     }
 

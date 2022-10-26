@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,13 +39,14 @@ public class ExpenseHistoryAdapter extends RecyclerView.Adapter<ExpenseHistoryAd
     public class MyView extends RecyclerView.ViewHolder {
 
         // Text View
+        ConstraintLayout constraintLayout;
 
         // parameterised constructor for View Holder class
         // which takes the view as a parameter
         public MyView(View view)
         {
             super(view);
-
+            constraintLayout = itemView.findViewById(R.id.dayContainer);
         }
     }
 
@@ -79,7 +81,6 @@ public class ExpenseHistoryAdapter extends RecyclerView.Adapter<ExpenseHistoryAd
     public void onBindViewHolder(final MyView holder,
                                  final int position)
     {
-
 
     }
 

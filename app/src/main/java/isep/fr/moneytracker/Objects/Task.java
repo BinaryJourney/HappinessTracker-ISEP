@@ -5,12 +5,16 @@ import java.util.Date;
 public class Task {
     private boolean done;
     private String Description;
-    private Date duTime;
+    private String duTime;
 
-    public Task(boolean done, String description, Date duTime) {
+    public Task(boolean done, String description, String duTime) {
         this.done = done;
         Description = description;
         this.duTime = duTime;
+    }
+
+    public boolean isDone() {
+        return done;
     }
 
     public void setDone(boolean done) {
@@ -21,7 +25,7 @@ public class Task {
         Description = description;
     }
 
-    public void setDuTime(Date duTime) {
+    public void setDuTime(String duTime) {
         this.duTime = duTime;
     }
 
@@ -29,7 +33,7 @@ public class Task {
         return Description;
     }
 
-    public Date getDuTime() {
+    public String getDuTime() {
         return duTime;
     }
 }

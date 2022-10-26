@@ -38,6 +38,17 @@ public class HistoryFragment extends Fragment {
     ) {
 
         binding = FragmentHistoryBinding.inflate(inflater, container, false);
+
+        try {
+            user = new User(getActivity());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if(user == null){
+            user = new User();
+        }
+
         return binding.getRoot();
 
     }
@@ -45,24 +56,27 @@ public class HistoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // initialisation with id's
-        recyclerView = binding.expensesList;
-        RecyclerViewLayoutManager = new LinearLayoutManager(getActivity());
+        if(dayList != null){
+            // initialisation with id's
+            recyclerView = binding.expensesList;
+            RecyclerViewLayoutManager = new LinearLayoutManager(getActivity());
 
-        // Set LayoutManager on Recycler View
-        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
+            // Set LayoutManager on Recycler View
+            recyclerView.setLayoutManager(RecyclerViewLayoutManager);
 
-        // calling constructor of adapter
-        // with source list as a parameter
-        expenseHistoryAdapter = new ExpenseHistoryAdapter(dayList, binding, getActivity(), user);
+            // calling constructor of adapter
+            // with source list as a parameter
+            expenseHistoryAdapter = new ExpenseHistoryAdapter(dayList, binding, getActivity(), user);
 
-        // Set Horizontal Layout Manager
-        // for Recycler view
-        HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(HorizontalLayout);
+            // Set Horizontal Layout Manager
+            // for Recycler view
+            HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+            recyclerView.setLayoutManager(HorizontalLayout);
 
-        // Set adapter on recycler view
-        recyclerView.setAdapter(expenseHistoryAdapter);
+            // Set adapter on recycler view
+            recyclerView.setAdapter(expenseHistoryAdapter);
+
+        }
 
     }
 

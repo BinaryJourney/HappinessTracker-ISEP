@@ -10,14 +10,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import isep.fr.moneytracker.R;
 import isep.fr.moneytracker.Tools.DataManager;
 
 public class User {
     private String name;
     private Day currentDay;
 
-    public User(String name){
-        this.name = name;
+    public User(){
+        this.name = "userName";
         this.currentDay = new Day();
     }
 
@@ -33,7 +34,6 @@ public class User {
 
         dayJsonObject = userJsonObject.getJSONObject("currentDay");
         taskJsonArray = dayJsonObject.getJSONArray("taskList");
-
 
         List<Task> taskList = new ArrayList<>();
         for(int i=0; i<taskJsonArray.length(); i++){

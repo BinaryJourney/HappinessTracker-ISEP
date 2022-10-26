@@ -8,13 +8,28 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
+import isep.fr.moneytracker.Adapters.ExpenseHistoryAdapter;
+import isep.fr.moneytracker.Objects.Day;
+import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.R;
 import isep.fr.moneytracker.databinding.FragmentHistoryBinding;
 
 public class HistoryFragment extends Fragment {
 
     private FragmentHistoryBinding binding;
+    private RecyclerView recyclerView;
+    RecyclerView.LayoutManager RecyclerViewLayoutManager;
+    LinearLayoutManager HorizontalLayout;
+    private ExpenseHistoryAdapter expenseHistoryAdapter;
+    private ArrayList<Day> dayList;
+    private User user;
+
 
     @Override
     public View onCreateView(
@@ -29,6 +44,25 @@ public class HistoryFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // initialisation with id's
+        recyclerView = binding.expensesList;
+        RecyclerViewLayoutManager = new LinearLayoutManager(getActivity());
+
+        // Set LayoutManager on Recycler View
+        recyclerView.setLayoutManager(RecyclerViewLayoutManager);
+
+        // calling constructor of adapter
+        // with source list as a parameter
+        expenseHistoryAdapter = new ExpenseHistoryAdapter(dayList, binding, getActivity(), user);
+
+        // Set Horizontal Layout Manager
+        // for Recycler view
+        HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(HorizontalLayout);
+
+        // Set adapter on recycler view
+        recyclerView.setAdapter(expenseHistoryAdapter);
 
     }
 

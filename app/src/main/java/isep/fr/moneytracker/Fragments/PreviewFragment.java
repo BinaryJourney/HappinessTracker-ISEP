@@ -85,6 +85,15 @@ public class PreviewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        tvUltimatePurpose = binding.tvUltimatePurpose;
+        tvPassion = binding.tvPassion;
+        tvPleasure = binding.tvPleasure;
+        tvBoring = binding.tvBoring;
+        tvSadness = binding.tvSadness;
+        tvHell = binding.tvHell;
+        pieChart = binding.piechart;
+        setData();
+
     }
 
     @Override

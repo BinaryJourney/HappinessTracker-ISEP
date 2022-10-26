@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="happinessLevel">
+        <item>"HELL"</item>
+        <item>"SADNESS"</item>
+        <item>"BORING"</item>
+        <item>"PLEASURE"</item>
+        <item>"PASSION"</item>
+        <item>"PURPOSE"</item>
+        <item>"ULTIMATE GOOD"</item>
+    </string-array>
+
+</resources>

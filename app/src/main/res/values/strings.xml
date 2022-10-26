@@ -9,4 +9,10 @@
 
     <string name="hello_first_fragment">Welcome to MoneyTracker</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="pie_string_1">Ultimate Purpose</string>
+    <string name="pie_string_2">Passion</string>
+    <string name="pie_string_3">Pleasure</string>
+    <string name="pie_string_4">Boring</string>
+    <string name="pie_string_5">Sadness</string>
+    <string name="pie_string_6">Hell</string>
 </resources>

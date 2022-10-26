@@ -10,8 +10,28 @@
 
     <color name="purple">#a18ed0</color>
     <color name="green">#85d2d0</color>
-    <color name="red">#f4b9b8</color>
     <color name="yellow">#fff4bd</color>
     <color name="orange">#ffceaa</color>
 
+    <color name="red">#f4b9b8</color>
+    <color name="red_neutral_1">#f4c8b8</color>
+    <color name="red_neutral_2">#f4d7b8</color>
+    <color name="red_neutral_3">#f4e6b8</color>
+    <color name="red_neutral_4">#f3f4b8</color>
+    <color name="red_neutral_5">#e4f4b8</color>
+
+<!--    TEST-->
+
+    <color name="colorPrimary">#024265</color>
+    <color name="colorPrimaryDark">#024265</color>
+    <color name="colorAccent">#05af9b</color>
+
+    <color name="color_one">#fb7268</color>
+    <color name="color_white">#ededf2</color>
+    <color name="color_two">#E3E0E0</color>
+
+    <color name="R">#FFA726</color>
+    <color name="Python">#66BB6A</color>
+    <color name="CPP">#EF5350</color>
+    <color name="Java">#29B6F6</color>
 </resources>

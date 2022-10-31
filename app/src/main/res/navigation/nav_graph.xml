@@ -3,26 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
-
+    app:startDestination="@id/previewFragment">
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="isep.fr.moneytracker.Fragments.PreviewFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_preview">
-
+        android:id="@+id/historyFragment"
+        android:name="isep.fr.moneytracker.Fragments.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_historyFragment_to_previewFragment"
+            app:destination="@id/previewFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="isep.fr.moneytracker.Fragments.HistoryFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_history">
-
+        android:id="@+id/previewFragment"
+        android:name="isep.fr.moneytracker.Fragments.PreviewFragment"
+        android:label="fragment_preview"
+        tools:layout="@layout/fragment_preview" >
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_previewFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
 </navigation>

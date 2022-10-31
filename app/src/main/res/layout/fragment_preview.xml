@@ -201,7 +201,6 @@
 
             </androidx.cardview.widget.CardView>
 
-
             <!-- Another Card view for displaying -->
             <!-- Use of programming languages -->
             <androidx.cardview.widget.CardView
@@ -474,8 +473,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-
 
         </LinearLayout>
 

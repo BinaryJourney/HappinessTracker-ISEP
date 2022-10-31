@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import isep.fr.moneytracker.Adapters.ExpenseHistoryAdapter;
 import isep.fr.moneytracker.Objects.Day;
+import isep.fr.moneytracker.Objects.Task;
 import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.R;
 import isep.fr.moneytracker.databinding.FragmentHistoryBinding;
@@ -25,7 +27,7 @@ public class HistoryFragment extends Fragment {
     private FragmentHistoryBinding binding;
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
-    LinearLayoutManager HorizontalLayout;
+    LinearLayoutManager VerticalLayout;
     private ExpenseHistoryAdapter expenseHistoryAdapter;
     private ArrayList<Day> dayList;
     private User user;
@@ -49,6 +51,9 @@ public class HistoryFragment extends Fragment {
             user = new User();
         }
 
+        dayList = new ArrayList<>();
+        generateFalseDay();
+
         return binding.getRoot();
 
     }
@@ -70,13 +75,31 @@ public class HistoryFragment extends Fragment {
 
             // Set Horizontal Layout Manager
             // for Recycler view
-            HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-            recyclerView.setLayoutManager(HorizontalLayout);
+            VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(VerticalLayout);
 
             // Set adapter on recycler view
             recyclerView.setAdapter(expenseHistoryAdapter);
 
         }
+
+    }
+
+    public void generateFalseDay(){
+        List<Task> taskList = new ArrayList<>();
+        taskList.add(new Task(true, "test de task", "27/10/2022"));
+        taskList.add(new Task(true, "test de task", "27/10/2022"));
+        taskList.add(new Task(true, "test de task", "27/10/2022"));
+
+        Day day1 = new Day(true, 49, "26/10/2022", taskList, "test d'implémentation de l'history adapter");
+
+        Day day2= new Day(true, 34, "26/10/2022", taskList, "test d'implémentation de l'history adapter");
+
+        Day day3 = new Day(true, 56, "26/10/2022", taskList, "test d'implémentation de l'history adapter");
+
+        dayList.add(day1);
+        dayList.add(day2);
+        dayList.add(day3);
 
     }
 

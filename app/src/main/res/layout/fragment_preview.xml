@@ -53,6 +53,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_weight="1"
                         android:padding="6dp"
+
                         />
 
                     <!--Creating another linear layout -->
@@ -74,7 +75,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="@color/R" />
+                                android:background="@color/red_neutral_5" />
 
                             <!--Text view to display R -->
                             <TextView
@@ -96,7 +97,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="@color/Python" />
+                                android:background="@color/red_neutral_4" />
 
                             <!--Text view to display python text -->
                             <TextView
@@ -118,7 +119,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="@color/CPP" />
+                                android:background="@color/red_neutral_3" />
 
                             <!--Text view to display C++ text -->
                             <TextView
@@ -140,7 +141,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="@color/Java" />
+                                android:background="@color/red_neutral_2" />
 
                             <!--Text view to display Java text -->
                             <TextView
@@ -162,7 +163,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="@color/Java" />
+                                android:background="@color/red_neutral_1" />
 
                             <!--Text view to display Java text -->
                             <TextView
@@ -184,7 +185,7 @@
                             <View
                                 android:layout_width="15dp"
                                 android:layout_height="match_parent"
-                                android:background="@color/Java" />
+                                android:background="@color/red" />
 
                             <!--Text view to display Java text -->
                             <TextView
@@ -476,9 +477,6 @@
 
         </LinearLayout>
 
-
     </ScrollView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

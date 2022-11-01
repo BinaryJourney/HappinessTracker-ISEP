@@ -17,10 +17,21 @@ import androidx.navigation.ui.NavigationUI;
 import isep.fr.moneytracker.Fragments.HistoryFragment;
 import isep.fr.moneytracker.Fragments.NewDayFragment;
 import isep.fr.moneytracker.Fragments.PreviewFragment;
+import isep.fr.moneytracker.Objects.History;
+import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.json.JSONException;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +54,44 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        User user = null;
+        try {
+            user = new User(this);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(user != null){
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String currentDate = formatter.format(Calendar.getInstance().getTime());
+            if(!user.getCurrentDay().getDate().equals(currentDate)){
+
+                History history = new History();
+                try {
+                    history.getHistory(this);
+                    history.addDay(user.getCurrentDay());
+                    history.saveHistory(this);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                File dir = getFilesDir();
+                File file = new File(dir, "userProfile.json");
+                boolean deleted = file.delete();
+
+                try {
+                    user.saveUser(this);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         //appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();

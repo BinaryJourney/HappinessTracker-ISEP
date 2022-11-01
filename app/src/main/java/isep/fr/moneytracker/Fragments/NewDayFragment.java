@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import isep.fr.moneytracker.Adapters.TasksListAdapter;
 import isep.fr.moneytracker.Objects.Day;
+import isep.fr.moneytracker.Objects.History;
 import isep.fr.moneytracker.Objects.Task;
 import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.R;
@@ -71,7 +72,10 @@ public class NewDayFragment extends Fragment {
         dayDescription.setText(user.getCurrentDay().getDaySummary());
 
         String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
-        happinessLevelText.setText("Happiness Level : "+happinessLevels[((int) Math.round(user.getCurrentDay().getHappiness())/10)]);
+        int happinessLevelValue = ((int) Math.round(user.getCurrentDay().getHappiness())/10);
+        if(happinessLevelValue == 6)
+            happinessLevelValue--;
+        happinessLevelText.setText("Happiness Level : "+happinessLevels[happinessLevelValue]);
         happinessLevel.setProgress((int) user.getCurrentDay().getHappiness());
 
         happinessLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -98,7 +102,7 @@ public class NewDayFragment extends Fragment {
 
         // calling constructor of adapter
         // with source list as a parameter
-        tasksListAdapter = new TasksListAdapter(user.getCurrentDay().getTaskList(), getActivity());
+        tasksListAdapter = new TasksListAdapter(user.getCurrentDay().getTaskList(), getActivity(), true);
 
         // Set Horizontal Layout Manager
         // for Recycler view
@@ -111,6 +115,25 @@ public class NewDayFragment extends Fragment {
         binding.addTask.setOnClickListener(item -> {
             displayDialogBox(getActivity(), (ViewGroup) view);
 
+        });
+
+        binding.validateDay.setOnClickListener(item -> {
+            History history = new History();
+            try {
+                history.getHistory(getActivity());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            history.addDay(user.getCurrentDay());
+            try {
+                history.saveHistory(getActivity());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
     }

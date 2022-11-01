@@ -29,6 +29,7 @@ import isep.fr.moneytracker.R;
 import isep.fr.moneytracker.Tools.DialogBox;
 
 public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyView> {
+    private final boolean newDay;
     private List<Task> taskList;
     private Activity activity;
     private ViewGroup parent;
@@ -54,10 +55,11 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyVi
         }
     }
 
-    public TasksListAdapter(List<Task> taskList, Activity activity) {
+    public TasksListAdapter(List<Task> taskList, Activity activity, boolean newDay) {
         this.taskList = taskList;
         this.activity = activity;
-        System.out.println(taskList);
+        this.newDay = newDay;
+        //System.out.println(taskList);
     }
 
     @Override
@@ -77,6 +79,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyVi
         holder.taskName.setText(taskList.get(position).getName());
         holder.taskDate.setText(taskList.get(position).getDuTime());
         holder.taskDone.setChecked(taskList.get(position).isDone());
+        holder.taskDone.setEnabled(newDay);
 
         holder.taskContainer.setOnClickListener(item -> {
             DialogBox dialogBox = new DialogBox();

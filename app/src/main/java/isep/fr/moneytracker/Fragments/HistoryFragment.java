@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.SearchView;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +18,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import isep.fr.moneytracker.Adapters.DayHistoryAdapter;
@@ -32,6 +37,7 @@ public class HistoryFragment extends Fragment {
     LinearLayoutManager VerticalLayout;
     private DayHistoryAdapter dayHistoryAdapter;
     private List<Day> dayList;
+    private List<Day> dayListCopy = new ArrayList<>();
     private User user;
     private DayDescriptionFragment dayDescriptionFragment;
 
@@ -92,8 +98,109 @@ public class HistoryFragment extends Fragment {
             recyclerView.setAdapter(dayHistoryAdapter);
 
 
+        SearchView searchView = binding.searchBar;
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Toast.makeText(getContext(), query, Toast.LENGTH_SHORT).show();
+                System.out.println(query);
+                String searchValue = query.toLowerCase();
+
+                restartListView();
+                List<Day> newDayList = new ArrayList<>(dayList);
+                for (Day day:newDayList) {
+                    if(!day.getDaySummary().toLowerCase().contains(searchValue) && !day.getDate().toLowerCase().contains(searchValue)){
+                        dayList.remove(day);
+                        dayListCopy.add(day);
+                        System.out.println(day);
+                    }
+                }
+                dayHistoryAdapter.notifyDataSetChanged();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                restartListView();
+                return false;
+            }
+        });
+
+
+        Spinner spinnerTypeFilter = (Spinner)binding.spinnerType;
+        ArrayAdapter<String> spinnerTypeArrayAdapter = new ArrayAdapter<String>(
+                getContext(),
+                androidx.transition.R.layout.support_simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.happinessLevel));
+        spinnerTypeFilter.setAdapter(spinnerTypeArrayAdapter);
+
+        spinnerTypeFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                String selectedItem = parent.getItemAtPosition(position).toString(); //this is your selected item
+                System.out.println(selectedItem);
+
+                HashMap<String, int[]> happinessLevelsValues = new HashMap<>();
+                happinessLevelsValues.put("hell", new int[]{0, 10});
+                happinessLevelsValues.put("sadness", new int[]{10, 20});
+                happinessLevelsValues.put("boring", new int[]{20, 30});
+                happinessLevelsValues.put("pleasure", new int[]{30, 40});
+                happinessLevelsValues.put("passion", new int[]{40, 50});
+                happinessLevelsValues.put("ultimate purpose", new int[]{50, 60});
+
+                if(!selectedItem.equals("FILTERS")){
+                    restartListView();
+                    List<Day> newDayList = new ArrayList<>(dayList);
+                    for (Day day:newDayList) {
+                        for(String key:happinessLevelsValues.keySet()){
+                            if(selectedItem.toLowerCase().contains(key)){
+                                if( !(happinessLevelsValues.get(key)[0] < day.getHappiness() && day.getHappiness() <= happinessLevelsValues.get(key)[1]) ){
+                                    if(day.getHappiness() == 0 && selectedItem.toLowerCase().contains("hell")){
+                                    //TODO delete this empty condition -> not really appropriate
+                                    }else {
+                                        dayList.remove(day);
+                                        dayListCopy.add(day);
+                                        System.out.println(day);
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
+                }else {
+                    restartListView();
+                }
+                dayHistoryAdapter.notifyDataSetChanged();
+            }
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
+
         }
 
+    }
+
+    public void restartListView(){
+        if(dayListCopy != null){
+            for (Day day:dayListCopy) {
+                dayList.add(day);
+            }
+            dayListCopy.clear();
+            dayHistoryAdapter.notifyDataSetChanged();
+        }
     }
 
     public void displayDayInfos(int position){

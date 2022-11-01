@@ -19,6 +19,16 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="colorPrimary">?attr/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/green</item>
+        <item name="colorAccent">?attr/colorAccent</item>
+        <item name="android:statusBarColor">@color/green</item>
+        <!-- Navigation bar color -->
+        <item name="android:navigationBarColor">@color/green</item>
+    </style>
+
     <style name="Theme.MoneyTracker.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MoneyTracker.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

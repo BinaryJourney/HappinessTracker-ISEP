@@ -26,6 +26,7 @@ import isep.fr.moneytracker.Objects.Day;
 import isep.fr.moneytracker.Objects.Task;
 import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.R;
+import isep.fr.moneytracker.Tools.DialogBox;
 
 public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyView> {
     private List<Task> taskList;
@@ -76,10 +77,10 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyVi
         holder.taskName.setText(taskList.get(position).getName());
         holder.taskDate.setText(taskList.get(position).getDuTime());
         holder.taskDone.setChecked(taskList.get(position).isDone());
-        holder.taskDone.setEnabled(false);
 
         holder.taskContainer.setOnClickListener(item -> {
-            displayDialogBox(parent, taskList.get(position));
+            DialogBox dialogBox = new DialogBox();
+            dialogBox.displayDialogBox(activity, parent, taskList.get(position), false);
         });
 
     }
@@ -89,39 +90,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyVi
         return taskList.size();
     }
 
-    public void displayDialogBox(ViewGroup view, Task task){
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Your Task");
 
-        View viewInflated = LayoutInflater.from(activity).inflate(R.layout.task_description_box, view, false);
-
-        EditText taskName = viewInflated.findViewById(R.id.taskName);
-        EditText taskDuTime = viewInflated.findViewById(R.id.taskDuTime);
-        EditText taskDescription = viewInflated.findViewById(R.id.taskDescription);
-
-        taskName.setText(task.getName());
-        taskDuTime.setText(task.getDuTime());
-        taskDescription.setText(task.getDescription());
-
-        builder.setView(viewInflated);
-
-        // Set up the buttons
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-            }
-        });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
 
 
 }

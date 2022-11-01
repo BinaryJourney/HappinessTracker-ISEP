@@ -55,12 +55,14 @@ public class DayDescriptionFragment extends Fragment {
         happinessLevel.setProgress((int) day.getHappiness());
         happinessLevel.setEnabled(false);
 
+        // Usefull to modify the levelOfHappiness later on
+        /*
         happinessLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
 
-                happinessLevelText.setText("Happiness Level : "+happinessLevels[(i-1)/10]);
+                happinessLevelText.setText("Happiness Level : "+happinessLevels[(i/10)-1]);
             }
 
             @Override
@@ -69,6 +71,7 @@ public class DayDescriptionFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+         */
 
         recyclerView = binding.tasksList;
         RecyclerViewLayoutManager = new LinearLayoutManager(getActivity());
@@ -87,8 +90,6 @@ public class DayDescriptionFragment extends Fragment {
 
         // Set adapter on recycler view
         recyclerView.setAdapter(tasksListAdapter);
-
-
 
 
     }

@@ -8,6 +8,8 @@ public class Task {
     private String Description;
     private String duTime;
 
+    public Task(){}
+
     public Task(boolean done, String name, String description, String duTime) {
         this.done = done;
         this.name = name;

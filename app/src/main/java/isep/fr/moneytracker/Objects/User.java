@@ -30,7 +30,9 @@ public class User {
         JSONArray taskJsonArray = new JSONArray();
         JSONObject taskJsonObject = new JSONObject();
 
-        this.name = userJsonObject.getJSONObject("name").toString();
+        System.out.println(userJsonObject);
+
+        this.name = userJsonObject.getString("name");
 
         dayJsonObject = userJsonObject.getJSONObject("currentDay");
         taskJsonArray = dayJsonObject.getJSONArray("taskList");
@@ -43,7 +45,6 @@ public class User {
         }
 
         this.currentDay = new Day(dayJsonObject.getBoolean("dayDone"), dayJsonObject.getDouble("happiness"), dayJsonObject.getString("date"), taskList, dayJsonObject.getString("daySummary"));
-
 
     }
 
@@ -71,6 +72,8 @@ public class User {
 
         userJsonObject.put("name", this.name);
         userJsonObject.put("currentDay", dayJsonObject);
+
+        System.out.println(userJsonObject);
 
         dataManager.saveJson(userJsonObject, activity, "userProfile.json");
     }

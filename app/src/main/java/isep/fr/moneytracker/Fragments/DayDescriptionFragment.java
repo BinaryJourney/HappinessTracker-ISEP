@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -41,17 +42,21 @@ public class DayDescriptionFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         TextView dayDate = binding.editTextDate;
-        TextView dayDescription = binding.DayDescription;
+        EditText dayDescription = binding.DayDescription;
         TextView happinessLevelText = binding.happinessLevelText;
         SeekBar happinessLevel = binding.happinessLevel;
         happinessLevel.incrementProgressBy(10);
+
+        System.out.println(day);
 
         dayDate.setText(day.getDate());
         dayDescription.setText(day.getDaySummary());
 
         String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
-
-        happinessLevelText.setText("Happiness Level : "+happinessLevels[((int) Math.round(day.getHappiness())/10)-1]);
+        int happinessLevelValue = ((int) Math.round(day.getHappiness())/10);
+        if(happinessLevelValue == 6)
+            happinessLevelValue--;
+        happinessLevelText.setText("Happiness Level : "+happinessLevels[happinessLevelValue]);
         happinessLevel.setProgress((int) day.getHappiness());
         happinessLevel.setEnabled(false);
 
@@ -81,7 +86,7 @@ public class DayDescriptionFragment extends Fragment {
 
         // calling constructor of adapter
         // with source list as a parameter
-        tasksListAdapter = new TasksListAdapter(day.getTaskList(), getActivity());
+        tasksListAdapter = new TasksListAdapter(day.getTaskList(), getActivity(), false);
 
         // Set Horizontal Layout Manager
         // for Recycler view

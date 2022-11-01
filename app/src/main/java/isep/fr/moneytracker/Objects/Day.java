@@ -1,6 +1,9 @@
 package isep.fr.moneytracker.Objects;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +25,8 @@ public class Day {
     public Day() {
         this.dayDone = false;
         this.happiness = 0;
-        this.date = new Date().toString();
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        this.date = formatter.format(Calendar.getInstance().getTime());
         this.taskList = new ArrayList<>();
         this.daySummary = "";
     }

@@ -34,8 +34,8 @@
         android:layout_height="75dp"
         android:padding="10dp"
         android:layout_gravity="bottom"
-        app:itemIconTint="@color/purple_700"
-        app:itemTextColor="@color/purple_700"
+        app:itemIconTint="@color/green"
+        app:itemTextColor="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_footer"/>
 

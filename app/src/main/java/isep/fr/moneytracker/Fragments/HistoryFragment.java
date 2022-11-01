@@ -10,11 +10,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import isep.fr.moneytracker.Adapters.DayHistoryAdapter;
 import isep.fr.moneytracker.Objects.Day;
+import isep.fr.moneytracker.Objects.History;
 import isep.fr.moneytracker.Objects.Task;
 import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.R;
@@ -27,7 +31,7 @@ public class HistoryFragment extends Fragment {
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
     LinearLayoutManager VerticalLayout;
     private DayHistoryAdapter dayHistoryAdapter;
-    private ArrayList<Day> dayList;
+    private List<Day> dayList;
     private User user;
     private DayDescriptionFragment dayDescriptionFragment;
 
@@ -50,8 +54,15 @@ public class HistoryFragment extends Fragment {
             user = new User();
         }
 
-        dayList = new ArrayList<>();
-        generateFalseDay();
+        History history = new History();
+        try {
+            history.getHistory(getActivity());
+            dayList = history.getDayList();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return binding.getRoot();
 

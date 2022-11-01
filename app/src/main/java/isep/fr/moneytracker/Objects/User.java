@@ -30,7 +30,7 @@ public class User {
         JSONArray taskJsonArray = new JSONArray();
         JSONObject taskJsonObject = new JSONObject();
 
-        System.out.println(userJsonObject);
+        //System.out.println(userJsonObject);
 
         this.name = userJsonObject.getString("name");
 
@@ -62,6 +62,7 @@ public class User {
 
         List<Task> taskList = currentDay.getTaskList();
         for(Task task:taskList){
+            taskJsonObject = new JSONObject();
             taskJsonObject.put("done", task.isDone());
             taskJsonObject.put("name", task.getName());
             taskJsonObject.put("description", task.getDescription());
@@ -73,7 +74,7 @@ public class User {
         userJsonObject.put("name", this.name);
         userJsonObject.put("currentDay", dayJsonObject);
 
-        System.out.println(userJsonObject);
+        //System.out.println(userJsonObject);
 
         dataManager.saveJson(userJsonObject, activity, "userProfile.json");
     }

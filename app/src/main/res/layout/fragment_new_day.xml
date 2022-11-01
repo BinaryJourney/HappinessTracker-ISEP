@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginBottom="75dp">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -103,8 +104,16 @@
                 android:backgroundTint="@color/green"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ajouter une tâche "
+                android:text="Add Task "
                 android:layout_marginBottom="75dp"/>
+
+            <Button
+                android:id="@+id/validateDay"
+                android:backgroundTint="@color/green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Validate Day"
+                android:layout_marginTop="25dp" />
 
 
         </LinearLayout>

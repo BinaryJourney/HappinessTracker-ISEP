@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -34,7 +35,8 @@ public class DayHistoryAdapter extends RecyclerView.Adapter<DayHistoryAdapter.My
         TextView daydate;
         TextView numberOfTasks;
         TextView happinessLevelText;
-        ProgressBar happinessLevel;
+        //ProgressBar happinessLevel;
+        ImageView happinessLevel;
 
         // parameterised constructor for View Holder class
         // which takes the view as a parameter
@@ -51,7 +53,7 @@ public class DayHistoryAdapter extends RecyclerView.Adapter<DayHistoryAdapter.My
 
     // Constructor for adapter class
     // which takes a list of String type
-    public DayHistoryAdapter(ArrayList<Day> dayList, HistoryFragment binding) {
+    public DayHistoryAdapter(List<Day> dayList, HistoryFragment binding) {
         this.dayList = dayList;
         this.binding = binding;
     }
@@ -83,8 +85,26 @@ public class DayHistoryAdapter extends RecyclerView.Adapter<DayHistoryAdapter.My
         holder.numberOfTasks.setText("Tasks : "+String.valueOf(dayList.get(position).getTaskList().size()));
         holder.happinessLevelText.setText(String.valueOf(dayList.get(position).getHappiness()));
 
-        holder.happinessLevel.setMax(60);
-        holder.happinessLevel.setProgress((int) dayList.get(position).getHappiness());
+        //holder.happinessLevel.setMax(60);
+        //holder.happinessLevel.setProgress((int) dayList.get(position).getHappiness());
+
+        int[][] happinessLevelsValues = {
+                {0, 10, R.drawable.hell},
+                {10, 20, R.drawable.sadness},
+                {20, 30, R.drawable.boring},
+                {30, 40, R.drawable.pleasure},
+                {40, 50, R.drawable.passion},
+                {50, 60, R.drawable.ultimate_purpose}
+        };
+
+        for(int[] levelsValues:happinessLevelsValues){
+            if(levelsValues[0] < dayList.get(position).getHappiness() && dayList.get(position).getHappiness() <= levelsValues[1]){
+                holder.happinessLevel.setImageResource(levelsValues[2]);
+            }
+            else if(dayList.get(position).getHappiness() == 0){
+                holder.happinessLevel.setImageResource(R.drawable.hell);
+            }
+        }
 
         holder.dayContainer.setOnClickListener(item -> {
             binding.displayDayInfos(position);

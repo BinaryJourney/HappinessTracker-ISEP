@@ -21,7 +21,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
-import isep.fr.moneytracker.Adapters.TasksListAdapter;
+import isep.fr.moneytracker.Adapters.CreateTasksListAdapter;
 import isep.fr.moneytracker.Objects.Day;
 import isep.fr.moneytracker.Objects.History;
 import isep.fr.moneytracker.Objects.Task;
@@ -36,8 +36,7 @@ public class NewDayFragment extends Fragment {
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
     LinearLayoutManager VerticalLayout;
-    private TasksListAdapter tasksListAdapter;
-
+    private CreateTasksListAdapter tasksListAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -102,7 +101,7 @@ public class NewDayFragment extends Fragment {
 
         // calling constructor of adapter
         // with source list as a parameter
-        tasksListAdapter = new TasksListAdapter(user.getCurrentDay().getTaskList(), getActivity(), true);
+        tasksListAdapter = new CreateTasksListAdapter(user.getCurrentDay().getTaskList(), getActivity(), true, this);
 
         // Set Horizontal Layout Manager
         // for Recycler view
@@ -179,6 +178,10 @@ public class NewDayFragment extends Fragment {
 
         builder.show();
 
+    }
+
+    public void setTaskDone(int position, boolean taskDone){
+        user.getCurrentDay().getTask(position).setDone(taskDone);
     }
 
     @Override

@@ -71,6 +71,10 @@ public class Day {
         return taskList;
     }
 
+    public Task getTask(int position){
+        return taskList.get(position);
+    }
+
     public String getDaySummary() {
         return daySummary;
     }

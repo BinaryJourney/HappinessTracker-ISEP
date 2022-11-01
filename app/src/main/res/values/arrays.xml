@@ -2,6 +2,7 @@
 <resources>
 
     <string-array name="happinessLevel">
+        <item>"FILTERS"</item>
         <item>"HELL"</item>
         <item>"SADNESS"</item>
         <item>"BORING"</item>

@@ -17,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 import isep.fr.moneytracker.Fragments.HistoryFragment;
 import isep.fr.moneytracker.Fragments.NewDayFragment;
 import isep.fr.moneytracker.Fragments.PreviewFragment;
+import isep.fr.moneytracker.Objects.Day;
 import isep.fr.moneytracker.Objects.History;
 import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.databinding.ActivityMainBinding;
@@ -64,14 +65,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(user != null){
+            System.out.println(user.getCurrentDay().getDate());
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             String currentDate = formatter.format(Calendar.getInstance().getTime());
             if(!user.getCurrentDay().getDate().equals(currentDate)){
 
+                System.out.println("save previous day in history");
+
                 History history = new History();
                 try {
                     history.getHistory(this);
-                    history.addDay(user.getCurrentDay());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                history.addDay(user.getCurrentDay());
+                try {
                     history.saveHistory(this);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -79,10 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                File dir = getFilesDir();
-                File file = new File(dir, "userProfile.json");
-                boolean deleted = file.delete();
-
+                user.setCurrentDay(new Day());
                 try {
                     user.saveUser(this);
                 } catch (JSONException e) {

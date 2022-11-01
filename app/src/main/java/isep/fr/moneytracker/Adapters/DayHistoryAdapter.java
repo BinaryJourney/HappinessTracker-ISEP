@@ -83,7 +83,7 @@ public class DayHistoryAdapter extends RecyclerView.Adapter<DayHistoryAdapter.My
 
         holder.daydate.setText(String.valueOf(dayList.get(position).getDate()));
         holder.numberOfTasks.setText("Tasks : "+String.valueOf(dayList.get(position).getTaskList().size()));
-        holder.happinessLevelText.setText(String.valueOf(dayList.get(position).getHappiness()));
+        holder.happinessLevelText.setText(String.valueOf((int) dayList.get(position).getHappiness())+"/60");
 
         //holder.happinessLevel.setMax(60);
         //holder.happinessLevel.setProgress((int) dayList.get(position).getHappiness());

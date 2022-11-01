@@ -86,4 +86,8 @@ public class User {
     public Day getCurrentDay() {
         return currentDay;
     }
+
+    public void setCurrentDay(Day currentDay) {
+        this.currentDay = currentDay;
+    }
 }

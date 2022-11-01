@@ -42,43 +42,53 @@ public class PreviewFragment extends Fragment {
     }
 
     private void setData() {
-        tvUltimatePurpose.setText(Integer.toString(5));
-        tvPassion.setText(Integer.toString(20));
-        tvPleasure.setText(Integer.toString(30));
-        tvBoring.setText(Integer.toString(20));
-        tvSadness.setText(Integer.toString(20));
-        tvHell.setText(Integer.toString(5));
+
+        int counterUltimatePurpose = 50;
+        int counterPassion = 25;
+        int counterPleasure = 25;
+        int counterBoring = 25;
+        int counterSadness = 25;
+        int counterHell = 25;
+
+        tvUltimatePurpose.setText(Integer.toString(counterUltimatePurpose));
+        tvPassion.setText(Integer.toString(counterPassion));
+        tvPleasure.setText(Integer.toString(counterPleasure));
+        tvBoring.setText(Integer.toString(counterBoring));
+        tvSadness.setText(Integer.toString(counterSadness));
+        tvHell.setText(Integer.toString(counterHell));
 
         pieChart.addPieSlice(
                 new PieModel(
                         getResources().getString(R.string.pie_string_1),
-                        Integer.parseInt(tvUltimatePurpose.getText().toString()),
-                        getResources().getColor(R.color.red)));
+                        counterUltimatePurpose,
+                        getResources().getColor(R.color.red_neutral_5)));
         pieChart.addPieSlice(
                 new PieModel(
                         getResources().getString(R.string.pie_string_2),
-                        Integer.parseInt(tvPassion.getText().toString()),
-                        getResources().getColor(R.color.red_neutral_1)));
-        pieChart.addPieSlice(
-                new PieModel(
-                        getResources().getString(R.string.pie_string_3),
-                        Integer.parseInt(tvPleasure.getText().toString()),
-                        getResources().getColor(R.color.red_neutral_2)));
-        pieChart.addPieSlice(
-                new PieModel(
-                        getResources().getString(R.string.pie_string_4),
-                        Integer.parseInt(tvBoring.getText().toString()),
-                        getResources().getColor(R.color.red_neutral_3)));
-        pieChart.addPieSlice(
-                new PieModel(
-                        getResources().getString(R.string.pie_string_5),
-                        Integer.parseInt(tvSadness.getText().toString()),
+                        counterPassion,
                         getResources().getColor(R.color.red_neutral_4)));
         pieChart.addPieSlice(
                 new PieModel(
+                        getResources().getString(R.string.pie_string_3),
+                        counterPleasure,
+                        getResources().getColor(R.color.red_neutral_3)));
+        pieChart.addPieSlice(
+                new PieModel(
+                        getResources().getString(R.string.pie_string_4),
+                        counterBoring,
+                        getResources().getColor(R.color.red_neutral_2)));
+        pieChart.addPieSlice(
+                new PieModel(
+                        getResources().getString(R.string.pie_string_5),
+                        counterSadness,
+                        getResources().getColor(R.color.red_neutral_1)));
+        pieChart.addPieSlice(
+                new PieModel(
                         getResources().getString(R.string.pie_string_6),
-                        Integer.parseInt(tvHell.getText().toString()),
-                        getResources().getColor(R.color.red_neutral_5)));
+                        counterHell,
+                        getResources().getColor(R.color.red)));
+
+
         pieChart.startAnimation();
     }
 

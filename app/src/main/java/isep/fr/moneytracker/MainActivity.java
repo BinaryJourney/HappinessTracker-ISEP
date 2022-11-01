@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,13 +11,12 @@ import android.view.View;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import isep.fr.moneytracker.Fragments.HistoryFragment;
+import isep.fr.moneytracker.Fragments.NewDayFragment;
 import isep.fr.moneytracker.Fragments.PreviewFragment;
-import isep.fr.moneytracker.Fragments.ProfileFragment;
 import isep.fr.moneytracker.databinding.ActivityMainBinding;
 
 import android.view.Menu;
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private PreviewFragment previewFragment = new PreviewFragment();
     private HistoryFragment historyFragment = new HistoryFragment();
-    //private ProfileFragment profileFragment = new ProfileFragment();
+    private NewDayFragment newDayFragment = new NewDayFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.Profile:
                         System.out.println("Profile");
-                        //getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, newDayFragment).commit();
                         return true;
 
                 }

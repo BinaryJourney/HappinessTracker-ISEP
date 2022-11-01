@@ -70,4 +70,15 @@ public class Day {
     public String getDaySummary() {
         return daySummary;
     }
+
+    @Override
+    public String toString() {
+        return "Day{" +
+                "dayDone=" + dayDone +
+                ", happiness=" + happiness +
+                ", date='" + date + '\'' +
+                ", taskList=" + taskList +
+                ", daySummary='" + daySummary + '\'' +
+                '}';
+    }
 }

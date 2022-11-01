@@ -1,40 +1,28 @@
 package isep.fr.moneytracker.Adapters;
 
 import android.app.Activity;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import isep.fr.moneytracker.Fragments.DayDescriptionFragment;
+import isep.fr.moneytracker.Fragments.HistoryFragment;
 import isep.fr.moneytracker.Objects.Day;
 import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.R;
-import isep.fr.moneytracker.databinding.FragmentHistoryBinding;
 
-public class ExpenseHistoryAdapter extends RecyclerView.Adapter<ExpenseHistoryAdapter.MyView> {
+public class DayHistoryAdapter extends RecyclerView.Adapter<DayHistoryAdapter.MyView> {
 
     private List<Day> dayList;
-    private FragmentHistoryBinding binding;
-    private Activity activity;
-    private User user;
+    private HistoryFragment binding;
     private DayDescriptionFragment dayDescriptionFragment = new DayDescriptionFragment();
 
     // View Holder class which
@@ -63,11 +51,9 @@ public class ExpenseHistoryAdapter extends RecyclerView.Adapter<ExpenseHistoryAd
 
     // Constructor for adapter class
     // which takes a list of String type
-    public ExpenseHistoryAdapter(ArrayList<Day> dayList, FragmentHistoryBinding binding, FragmentActivity activity, User user) {
+    public DayHistoryAdapter(ArrayList<Day> dayList, HistoryFragment binding) {
         this.dayList = dayList;
         this.binding = binding;
-        this.activity = activity;
-        this.user = user;
     }
 
     // Override onCreateViewHolder which deals
@@ -101,8 +87,9 @@ public class ExpenseHistoryAdapter extends RecyclerView.Adapter<ExpenseHistoryAd
         holder.happinessLevel.setProgress((int) dayList.get(position).getHappiness());
 
         holder.dayContainer.setOnClickListener(item -> {
-            activity.getFragmentManager().beginTransaction().replace(R.id.container, dayDescriptionFragment).commit();
+            binding.displayDayInfos(position);
         });
+
     }
 
     // Override getItemCount which Returns

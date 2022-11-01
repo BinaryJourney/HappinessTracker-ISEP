@@ -38,7 +38,7 @@ public class User {
         List<Task> taskList = new ArrayList<>();
         for(int i=0; i<taskJsonArray.length(); i++){
             taskJsonObject = taskJsonArray.getJSONObject(i);
-            Task task = new Task(taskJsonObject.getBoolean("done"), taskJsonObject.getString("description"), taskJsonObject.getString("duTime"));
+            Task task = new Task(taskJsonObject.getBoolean("done"), taskJsonObject.getString("name"), taskJsonObject.getString("description"), taskJsonObject.getString("duTime"));
             taskList.add(task);
         }
 
@@ -62,6 +62,7 @@ public class User {
         List<Task> taskList = currentDay.getTaskList();
         for(Task task:taskList){
             taskJsonObject.put("done", task.isDone());
+            taskJsonObject.put("name", task.getName());
             taskJsonObject.put("description", task.getDescription());
             taskJsonObject.put("duTime", task.getDuTime());
             taskJsonArray.put(taskJsonObject);

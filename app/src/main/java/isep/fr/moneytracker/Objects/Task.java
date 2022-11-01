@@ -4,12 +4,14 @@ import java.util.Date;
 
 public class Task {
     private boolean done;
+    private String name;
     private String Description;
     private String duTime;
 
-    public Task(boolean done, String description, String duTime) {
+    public Task(boolean done, String name, String description, String duTime) {
         this.done = done;
-        Description = description;
+        this.name = name;
+        this.Description = description;
         this.duTime = duTime;
     }
 
@@ -35,5 +37,13 @@ public class Task {
 
     public String getDuTime() {
         return duTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

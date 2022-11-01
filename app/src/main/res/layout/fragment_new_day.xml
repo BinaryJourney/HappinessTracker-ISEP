@@ -44,7 +44,6 @@
                 android:ems="10"
                 android:hint="Today's Date"
                 android:inputType="date"
-                android:enabled="false"
                 tools:layout_editor_absoluteX="200dp"
                 tools:layout_editor_absoluteY="175dp" />
 
@@ -78,7 +77,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:enabled="false"
                 android:inputType="textMultiLine"
                 android:hint="Write your day summary here" />
 

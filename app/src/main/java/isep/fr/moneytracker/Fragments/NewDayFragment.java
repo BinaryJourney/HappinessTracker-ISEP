@@ -120,6 +120,7 @@ public class NewDayFragment extends Fragment {
             History history = new History();
             user.getCurrentDay().setDate(binding.editTextDate.getText().toString());
             user.getCurrentDay().setDaySummary(binding.DayDescription.getText().toString());
+            user.getCurrentDay().setDayDone(true);
             try {
                 history.getHistory(getActivity());
             } catch (JSONException e) {
@@ -182,6 +183,11 @@ public class NewDayFragment extends Fragment {
 
     public void setTaskDone(int position, boolean taskDone){
         user.getCurrentDay().getTask(position).setDone(taskDone);
+    }
+
+    public void deleteTaskInList(int position){
+        user.getCurrentDay().getTaskList().remove(position);
+        tasksListAdapter.notifyDataSetChanged();
     }
 
     @Override

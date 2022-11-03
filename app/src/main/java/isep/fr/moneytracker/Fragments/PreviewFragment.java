@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,13 +14,20 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
+import org.json.JSONException;
 
+import java.io.IOException;
+import java.util.List;
+
+import isep.fr.moneytracker.Objects.Day;
+import isep.fr.moneytracker.Objects.History;
 import isep.fr.moneytracker.R;
 import isep.fr.moneytracker.databinding.FragmentPreviewBinding;
 
 public class PreviewFragment extends Fragment {
 
     private FragmentPreviewBinding binding;
+    private List<Day> dayList;
 
     TextView tvUltimatePurpose, tvPassion, tvPleasure, tvBoring, tvSadness, tvHell;
     PieChart pieChart;
@@ -43,12 +51,59 @@ public class PreviewFragment extends Fragment {
 
     private void setData() {
 
-        int counterUltimatePurpose = 50;
-        int counterPassion = 25;
-        int counterPleasure = 25;
-        int counterBoring = 25;
-        int counterSadness = 25;
-        int counterHell = 25;
+        int counterUltimatePurpose = 0;
+        int counterPassion = 0;
+        int counterPleasure = 0;
+        int counterBoring = 0;
+        int counterSadness = 0;
+        int counterHell = 0;
+
+        History history = new History();
+        try {
+            history.getHistory(getActivity());
+            dayList = history.getDayList();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
+
+        for(Day day:dayList){
+            int happinessLevelValue = ((int) Math.round(day.getHappiness())/10);
+            if(happinessLevelValue == 6)
+                happinessLevelValue--;
+
+            switch (happinessLevels[happinessLevelValue]){
+                case "Hell":
+                    counterHell++;
+                    break;
+
+                case "Sadness":
+                    counterSadness++;
+                    break;
+
+                case "Boring":
+                    counterBoring++;
+                    break;
+
+                case "Pleasure":
+                    counterPleasure++;
+                    break;
+
+                case "Passion":
+                    counterPassion++;
+                    break;
+
+                case "Ultimate Purpose":
+                    counterUltimatePurpose++;
+                    break;
+
+                default:
+                    break;
+            }
+        }
 
         tvUltimatePurpose.setText(Integer.toString(counterUltimatePurpose));
         tvPassion.setText(Integer.toString(counterPassion));

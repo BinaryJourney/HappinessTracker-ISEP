@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import isep.fr.moneytracker.Fragments.DayDescriptionFragment;
 import isep.fr.moneytracker.Fragments.HistoryFragment;
 import isep.fr.moneytracker.Objects.Day;
 import isep.fr.moneytracker.Objects.Task;
@@ -30,6 +31,7 @@ import isep.fr.moneytracker.Tools.DialogBox;
 
 public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyView> {
     private final boolean newDay;
+    private final DayDescriptionFragment binding;
     private List<Task> taskList;
     private Activity activity;
     private ViewGroup parent;
@@ -55,10 +57,11 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyVi
         }
     }
 
-    public TasksListAdapter(List<Task> taskList, Activity activity, boolean newDay) {
+    public TasksListAdapter(List<Task> taskList, Activity activity, DayDescriptionFragment binding, boolean newDay) {
         this.taskList = taskList;
         this.activity = activity;
         this.newDay = newDay;
+        this.binding = binding;
         //System.out.println(taskList);
     }
 
@@ -74,7 +77,7 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyVi
 
 
     @Override
-    public void onBindViewHolder(@NonNull MyView holder, int position) {
+    public void onBindViewHolder(@NonNull MyView holder, final int position) {
 
         holder.taskName.setText(taskList.get(position).getName());
         holder.taskDate.setText(taskList.get(position).getDuTime());
@@ -84,6 +87,35 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyVi
         holder.taskContainer.setOnClickListener(item -> {
             DialogBox dialogBox = new DialogBox();
             dialogBox.displayDialogBox(activity, parent, taskList.get(position), false);
+        });
+
+        holder.taskContainer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(binding.getActivity());
+                builder.setTitle("Delete this day ?");
+                builder.setMessage("Are you sure that you want to delete this day ? You won't be able to get it back.");
+
+                // Set up the buttons
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        binding.deleteTaskInList(position);
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
+                return false;
+            }
         });
 
     }

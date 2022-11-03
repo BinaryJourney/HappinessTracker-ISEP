@@ -24,6 +24,7 @@ import isep.fr.moneytracker.databinding.FragmentDayDescriptionBinding;
 public class DayDescriptionFragment extends Fragment {
     private FragmentDayDescriptionBinding binding;
     private Day day;
+    private HistoryFragment historyFragment;
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
     LinearLayoutManager VerticalLayout;
@@ -47,7 +48,7 @@ public class DayDescriptionFragment extends Fragment {
         SeekBar happinessLevel = binding.happinessLevel;
         happinessLevel.incrementProgressBy(10);
 
-        System.out.println(day);
+        //System.out.println(day);
 
         dayDate.setText(day.getDate());
         dayDescription.setText(day.getDaySummary());
@@ -86,7 +87,7 @@ public class DayDescriptionFragment extends Fragment {
 
         // calling constructor of adapter
         // with source list as a parameter
-        tasksListAdapter = new TasksListAdapter(day.getTaskList(), getActivity(), false);
+        tasksListAdapter = new TasksListAdapter(day.getTaskList(), getActivity(), this,false);
 
         // Set Horizontal Layout Manager
         // for Recycler view
@@ -96,15 +97,27 @@ public class DayDescriptionFragment extends Fragment {
         // Set adapter on recycler view
         recyclerView.setAdapter(tasksListAdapter);
 
-
     }
+
+    public void deleteTaskInList(int position){
+        day.getTaskList().remove(position);
+        tasksListAdapter.notifyDataSetChanged();
+    }
+
+
 
     public void setDay(Day day) {
         this.day = day;
     }
 
+    public void setHistoryFragment(HistoryFragment historyFragment) {
+        this.historyFragment = historyFragment;
+    }
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+        historyFragment.updateDay(day);
     }
 }

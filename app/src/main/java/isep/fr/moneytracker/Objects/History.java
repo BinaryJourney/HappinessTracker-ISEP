@@ -95,4 +95,8 @@ public class History {
     public List<Day> getDayList() {
         return dayList;
     }
+
+    public void setDayList(List<Day> dayList) {
+        this.dayList = dayList;
+    }
 }

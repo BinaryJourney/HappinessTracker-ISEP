@@ -63,12 +63,12 @@ public class HistoryFragment extends Fragment {
         History history = new History();
         try {
             history.getHistory(getActivity());
-            dayList = history.getDayList();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        dayList = history.getDayList();
 
         return binding.getRoot();
 
@@ -206,31 +206,41 @@ public class HistoryFragment extends Fragment {
     public void displayDayInfos(int position){
         dayDescriptionFragment = new DayDescriptionFragment();
         dayDescriptionFragment.setDay(dayList.get(position));
+        dayDescriptionFragment.setHistoryFragment(this);
         getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("historyList").replace(R.id.container, dayDescriptionFragment).commit();
     }
 
-    public void generateFalseDay(){
-        List<Task> taskList = new ArrayList<>();
-        taskList.add(new Task(true, "test1", "test basique de description", "27/10/2022"));
-        taskList.add(new Task(false, "test2", "t was that terrifying feeling you have as you tightly hold the covers over you with the knowledge that there is something hiding under your bed. You want to look, but you don't at the same time. You're frozen with fear and unable to act. That's where she found herself and she didn't know what to do next", "27/10/2022"));
-        taskList.add(new Task(true, "test3", "acunen", "27/10/2022"));
+    public void deleteDayInList(int position){
+        dayList.remove(position);
+        dayHistoryAdapter.notifyDataSetChanged();
+    }
 
-        Day day1 = new Day(true, 49, "26/10/2022", taskList, "test d'implémentation de l'history adapter");
+    public void updateDay(Day newDay){
+        for(int i=0; i<dayList.size(); i++){
+            if(dayList.get(i).getDate().equals(newDay.getDate())){
+                dayList.get(i).setTaskList(newDay.getTaskList());
+            }
+        }
+        saveHistory();
+    }
 
-        Day day2= new Day(true, 34, "26/10/2022", taskList, "t was that terrifying feeling you have as you tightly hold the covers over you with the knowledge that there is something hiding under your bed. You want to look, but you don't at the same time. You're frozen with fear and unable to act. That's where she found herself and she didn't know what to do next");
-
-        Day day3 = new Day(true, 56, "26/10/2022", taskList, "test d'implémentation de l'history adapter");
-
-        dayList.add(day1);
-        dayList.add(day2);
-        dayList.add(day3);
-
+    public void saveHistory(){
+        History history = new History();
+        history.setDayList(dayList);
+        try {
+            history.saveHistory(getActivity());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        saveHistory();
     }
 
 }

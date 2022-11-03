@@ -1,6 +1,8 @@
 package isep.fr.moneytracker.Adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +23,7 @@ import isep.fr.moneytracker.Tools.DialogBox;
 
 public class CreateTasksListAdapter extends RecyclerView.Adapter<CreateTasksListAdapter.MyView> {
     private final boolean newDay;
-    private final NewDayFragment parentFragment;
+    private final NewDayFragment binding;
     private List<Task> taskList;
     private Activity activity;
     private ViewGroup parent;
@@ -46,11 +49,11 @@ public class CreateTasksListAdapter extends RecyclerView.Adapter<CreateTasksList
         }
     }
 
-    public CreateTasksListAdapter(List<Task> taskList, Activity activity, boolean newDay, NewDayFragment parentFragment) {
+    public CreateTasksListAdapter(List<Task> taskList, Activity activity, boolean newDay, NewDayFragment binding) {
         this.taskList = taskList;
         this.activity = activity;
         this.newDay = newDay;
-        this.parentFragment = parentFragment;
+        this.binding = binding;
         //System.out.println(taskList);
     }
 
@@ -66,7 +69,7 @@ public class CreateTasksListAdapter extends RecyclerView.Adapter<CreateTasksList
 
 
     @Override
-    public void onBindViewHolder(@NonNull MyView holder, int position) {
+    public void onBindViewHolder(@NonNull MyView holder, @SuppressLint("RecyclerView") final int position) {
 
         holder.taskName.setText(taskList.get(position).getName());
         holder.taskDate.setText(taskList.get(position).getDuTime());
@@ -74,12 +77,41 @@ public class CreateTasksListAdapter extends RecyclerView.Adapter<CreateTasksList
         holder.taskDone.setEnabled(newDay);
 
         holder.taskDone.setOnClickListener(item -> {
-            parentFragment.setTaskDone(position, holder.taskDone.isChecked());
+            binding.setTaskDone(position, holder.taskDone.isChecked());
         });
 
         holder.taskContainer.setOnClickListener(item -> {
             DialogBox dialogBox = new DialogBox();
             dialogBox.displayDialogBox(activity, parent, taskList.get(position), false);
+        });
+
+        holder.taskContainer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(binding.getActivity());
+                builder.setTitle("Delete this day ?");
+                builder.setMessage("Are you sure that you want to delete this day ? You won't be able to get it back.");
+
+                // Set up the buttons
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        binding.deleteTaskInList(position);
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
+                return false;
+            }
         });
 
     }

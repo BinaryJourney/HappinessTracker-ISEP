@@ -1,13 +1,16 @@
 package isep.fr.moneytracker.Adapters;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -108,6 +111,35 @@ public class DayHistoryAdapter extends RecyclerView.Adapter<DayHistoryAdapter.My
 
         holder.dayContainer.setOnClickListener(item -> {
             binding.displayDayInfos(position);
+        });
+
+        holder.dayContainer.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(binding.getActivity());
+                builder.setTitle("Delete this day ?");
+                builder.setMessage("Are you sure that you want to delete this day ? You won't be able to get it back.");
+
+                // Set up the buttons
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        binding.deleteDayInList(position);
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
+                return false;
+            }
         });
 
     }

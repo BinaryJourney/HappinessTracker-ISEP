@@ -69,26 +69,27 @@ public class MainActivity extends AppCompatActivity {
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             String currentDate = formatter.format(Calendar.getInstance().getTime());
             if(!user.getCurrentDay().getDate().equals(currentDate)){
-
-                System.out.println("save previous day in history");
-
-                History history = new History();
-                try {
-                    history.getHistory(this);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(user.getCurrentDay().getDaySummary() != null){
+                    System.out.println("save previous day in history");
+                    History history = new History();
+                    try {
+                        history.getHistory(this);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    history.addDay(user.getCurrentDay());
+                    try {
+                        history.saveHistory(this);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-                history.addDay(user.getCurrentDay());
-                try {
-                    history.saveHistory(this);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
+                System.out.println("Reset user current day");
                 user.setCurrentDay(new Day());
                 try {
                     user.saveUser(this);

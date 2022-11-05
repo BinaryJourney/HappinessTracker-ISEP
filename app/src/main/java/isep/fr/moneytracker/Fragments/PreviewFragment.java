@@ -70,38 +70,40 @@ public class PreviewFragment extends Fragment {
 
         String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
 
-        for(Day day:dayList){
-            int happinessLevelValue = ((int) Math.round(day.getHappiness())/10);
-            if(happinessLevelValue == 6)
-                happinessLevelValue--;
+        if(dayList != null){
+            for(Day day:dayList){
+                int happinessLevelValue = ((int) Math.round(day.getHappiness())/10);
+                if(happinessLevelValue == 6)
+                    happinessLevelValue--;
 
-            switch (happinessLevels[happinessLevelValue]){
-                case "Hell":
-                    counterHell++;
-                    break;
+                switch (happinessLevels[happinessLevelValue]){
+                    case "Hell":
+                        counterHell++;
+                        break;
 
-                case "Sadness":
-                    counterSadness++;
-                    break;
+                    case "Sadness":
+                        counterSadness++;
+                        break;
 
-                case "Boring":
-                    counterBoring++;
-                    break;
+                    case "Boring":
+                        counterBoring++;
+                        break;
 
-                case "Pleasure":
-                    counterPleasure++;
-                    break;
+                    case "Pleasure":
+                        counterPleasure++;
+                        break;
 
-                case "Passion":
-                    counterPassion++;
-                    break;
+                    case "Passion":
+                        counterPassion++;
+                        break;
 
-                case "Ultimate Purpose":
-                    counterUltimatePurpose++;
-                    break;
+                    case "Ultimate Purpose":
+                        counterUltimatePurpose++;
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
         }
 

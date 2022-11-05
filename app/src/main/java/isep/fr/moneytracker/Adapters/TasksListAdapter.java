@@ -94,8 +94,8 @@ public class TasksListAdapter extends RecyclerView.Adapter<TasksListAdapter.MyVi
             public boolean onLongClick(View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(binding.getActivity());
-                builder.setTitle("Delete this day ?");
-                builder.setMessage("Are you sure that you want to delete this day ? You won't be able to get it back.");
+                builder.setTitle("Delete this task ?");
+                builder.setMessage("Are you sure that you want to delete this task ? You won't be able to get it back.");
 
                 // Set up the buttons
                 builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {

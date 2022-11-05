@@ -28,11 +28,14 @@ public class DialogBox {
             taskName.setEnabled(false);
             taskDuTime.setEnabled(false);
             taskDescription.setEnabled(false);
+        }
 
+        if(task != null){
             taskName.setText(task.getName());
             taskDuTime.setText(task.getDuTime());
             taskDescription.setText(task.getDescription());
         }
+
 
         builder.setView(viewInflated);
 

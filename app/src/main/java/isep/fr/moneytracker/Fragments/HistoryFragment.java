@@ -24,7 +24,6 @@ import java.util.List;
 import isep.fr.moneytracker.Adapters.DayHistoryAdapter;
 import isep.fr.moneytracker.Objects.Day;
 import isep.fr.moneytracker.Objects.History;
-import isep.fr.moneytracker.Objects.Task;
 import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.R;
 import isep.fr.moneytracker.databinding.FragmentHistoryBinding;
@@ -79,7 +78,7 @@ public class HistoryFragment extends Fragment {
 
         if(dayList != null){
             // initialisation with id's
-            recyclerView = binding.expensesList;
+            recyclerView = binding.historyList;
             RecyclerViewLayoutManager = new LinearLayoutManager(getActivity());
 
             // Set LayoutManager on Recycler View

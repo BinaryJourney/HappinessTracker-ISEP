@@ -20,6 +20,14 @@ import org.eazegraph.lib.models.PieModel;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import isep.fr.moneytracker.Objects.Day;
@@ -44,7 +52,7 @@ public class PreviewFragment extends Fragment {
 
     }
 
-    private void setData() {
+    private void setData() throws ParseException {
 
         int counterUltimatePurpose = 0;
         int counterPassion = 0;
@@ -64,6 +72,74 @@ public class PreviewFragment extends Fragment {
         }
 
         String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
+
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date currentDate = Calendar.getInstance().getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+        Date minWeekDate = cal.getTime();
+        cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -1);
+        Date minMonthDate = cal.getTime();
+        cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, -1);
+        Date minYearDate = cal.getTime();
+        Date dateToProcess;
+        List<Day> datesToRemove = new ArrayList<>();
+
+        switch(selectedDateFilter) {
+            case "Week":
+                for(Day day:dayList) {
+                    dateToProcess = new SimpleDateFormat("dd/MM/yyyy").parse(day.getDate());
+                    int result1 = dateToProcess.compareTo(currentDate);
+                    int result2 = dateToProcess.compareTo(minWeekDate);
+                    if(!(result1 <= 0 && result2 >= 0))
+                    {
+                        datesToRemove.add(day);
+                    }
+                }
+                for(Day day:datesToRemove)
+                {
+                    dayList.remove(day);
+                }
+                break;
+            case "Month":
+                for(Day day:dayList) {
+                    dateToProcess = new SimpleDateFormat("dd/MM/yyyy").parse(day.getDate());
+                    int result1 = dateToProcess.compareTo(currentDate);
+                    int result2 = dateToProcess.compareTo(minMonthDate);
+                    if(!(result1 <= 0 && result2 >= 0))
+                    {
+                        datesToRemove.add(day);
+                    }
+                }
+                for(Day day:datesToRemove)
+                {
+                    dayList.remove(day);
+                }
+                break;
+            case "Year":
+                for(Day day:dayList) {
+                    dateToProcess = new SimpleDateFormat("dd/MM/yyyy").parse(day.getDate());
+                    int result1 = dateToProcess.compareTo(currentDate);
+                    int result2 = dateToProcess.compareTo(minYearDate);
+                    if(!(result1 <= 0 && result2 >= 0))
+                    {
+                        datesToRemove.add(day);
+                    }
+                }
+                for(Day day:datesToRemove)
+                {
+                    dayList.remove(day);
+                }
+                break;
+            default:
+                System.out.println(dayList);
+                break;
+        }
+
+        System.out.println("\n\n ALLO MICHEL !");
+        System.out.println(dayList);
 
         if(dayList != null){
             for(Day day:dayList){
@@ -140,7 +216,6 @@ public class PreviewFragment extends Fragment {
                         counterHell,
                         getResources().getColor(R.color.red)));
 
-
         pieChart.startAnimation();
     }
 
@@ -167,6 +242,11 @@ public class PreviewFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
                 selectedDateFilter = parent.getItemAtPosition(position).toString();
                 binding.happinessDataTitle.setText("Your " + selectedDateFilter + " Happiness Breakdown");
+                try {
+                    setData();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -174,7 +254,11 @@ public class PreviewFragment extends Fragment {
             }
         });
 
-        setData();
+        try {
+            setData();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
 

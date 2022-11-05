@@ -185,6 +185,7 @@ public class PreviewFragment extends Fragment {
         tvSadness.setText(Integer.toString(counterSadness));
         tvHell.setText(Integer.toString(counterHell));
 
+        pieChart.clearChart();
         pieChart.addPieSlice(
                 new PieModel(
                         getResources().getString(R.string.pie_string_1),
@@ -253,12 +254,6 @@ public class PreviewFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
-        try {
-            setData();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
     }
 

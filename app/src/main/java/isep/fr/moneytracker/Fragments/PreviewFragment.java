@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,21 +31,13 @@ public class PreviewFragment extends Fragment {
 
     private FragmentPreviewBinding binding;
     private List<Day> dayList;
+    private String selectedDateFilter = "All Time";
 
     TextView tvUltimatePurpose, tvPassion, tvPleasure, tvBoring, tvSadness, tvHell;
     PieChart pieChart;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-//        tvUltimatePurpose = binding.tvUltimatePurpose;
-//        tvPassion = binding.tvPassion;
-//        tvPleasure = binding.tvPleasure;
-//        tvBoring = binding.tvBoring;
-//        tvSadness = binding.tvSadness;
-//        tvHell = binding.tvBoring;
-//        pieChart = binding.piechart;
-//        setData();
 
         binding = FragmentPreviewBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -159,6 +154,26 @@ public class PreviewFragment extends Fragment {
         tvSadness = binding.tvSadness;
         tvHell = binding.tvHell;
         pieChart = binding.piechart;
+
+        Spinner spinnerHappinessStat = (Spinner)binding.spinnerHappinessStat;
+        ArrayAdapter<String> spinnerTypeArrayAdapter = new ArrayAdapter<String>(
+                getContext(),
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.happinessDateFilterType));
+        spinnerHappinessStat.setAdapter(spinnerTypeArrayAdapter);
+
+        spinnerHappinessStat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
+                selectedDateFilter = parent.getItemAtPosition(position).toString();
+                binding.happinessDataTitle.setText("Your " + selectedDateFilter + " Happiness Breakdown");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
         setData();
 
     }

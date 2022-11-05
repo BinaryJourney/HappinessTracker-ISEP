@@ -24,8 +24,6 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <!-- Card view for displaying the -->
-            <!-- Pie chart and details of pie chart -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewGraph"
                 android:layout_width="match_parent"
@@ -207,14 +205,42 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Another Card view for displaying -->
-            <!-- Use of programming languages -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/happinessDataFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <Spinner
+                        android:id="@+id/spinner_happiness_stat"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:padding="5dp"
+                        android:spinnerMode="dialog" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardViewGraph"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:elevation="10dp"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -226,17 +252,18 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="20dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
 
                     <!--Text view to use of -->
                     <!-- programming languages text-->
                     <TextView
+                        android:id="@+id/happinessDataTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
                         android:layout_marginTop="20dp"
-                        android:text="Your Happiness Breakdown :"
+                        android:text="C buggué"
                         android:textSize="23sp"
                         android:textStyle="bold" />
 
@@ -478,36 +505,6 @@
 
                     </RelativeLayout>
 
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardViewCalendar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:elevation="10dp"
-                app:cardCornerRadius="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <!--Linear layout to display pie chart -->
-                <!-- and details of pie chart-->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingBottom="20dp"
-                    android:weightSum="2">
-
-                <CalendarView
-                    android:id="@+id/calendarView"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"/>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

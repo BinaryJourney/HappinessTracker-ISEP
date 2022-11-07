@@ -107,20 +107,22 @@
                 android:text="Add Task "
                 android:layout_marginBottom="75dp"/>
 
+            <TextView
+                android:id="@+id/dayStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Day Status : "
+                android:textStyle="bold"
+                android:textSize="22dp"/>
+
             <Button
                 android:id="@+id/validateDay"
                 android:backgroundTint="@color/green"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Validate Day"
-                android:layout_marginTop="25dp" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-
+                 />
 
         </LinearLayout>
 

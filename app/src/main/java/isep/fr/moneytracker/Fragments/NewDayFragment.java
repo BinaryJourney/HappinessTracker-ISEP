@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +28,6 @@ import isep.fr.moneytracker.Objects.History;
 import isep.fr.moneytracker.Objects.Task;
 import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.R;
-import isep.fr.moneytracker.Tools.DialogBox;
 import isep.fr.moneytracker.databinding.FragmentNewDayBinding;
 
 public class NewDayFragment extends Fragment {
@@ -61,21 +61,10 @@ public class NewDayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView dayDate = binding.editTextDate;
-        TextView dayDescription = binding.DayDescription;
         TextView happinessLevelText = binding.happinessLevelText;
         SeekBar happinessLevel = binding.happinessLevel;
-        happinessLevel.incrementProgressBy(10);
 
-        dayDate.setText(user.getCurrentDay().getDate());
-        dayDescription.setText(user.getCurrentDay().getDaySummary());
-
-        String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
-        int happinessLevelValue = ((int) Math.round(user.getCurrentDay().getHappiness())/10);
-        if(happinessLevelValue == 6)
-            happinessLevelValue--;
-        happinessLevelText.setText("Happiness Level : "+happinessLevels[happinessLevelValue]);
-        happinessLevel.setProgress((int) user.getCurrentDay().getHappiness());
+        displayUserDay();
 
         happinessLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -92,6 +81,80 @@ public class NewDayFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+
+
+
+        binding.addTask.setOnClickListener(item -> {
+            displayDialogBox(getActivity(), (ViewGroup) view);
+
+        });
+
+        binding.validateDay.setOnClickListener(item -> {
+            History history = new History();
+            user.getCurrentDay().setDate(binding.editTextDate.getText().toString());
+            user.getCurrentDay().setDaySummary(binding.DayDescription.getText().toString());
+            user.getCurrentDay().setDayDone(true);
+
+            try {
+                history.getHistory(getActivity());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            boolean dayAlreadySaved = false;
+            int indexOfSavedDay =0;
+            for(Day previousDay:history.getDayList()){
+                if(previousDay.getDate().equals(user.getCurrentDay().getDate())){
+                    indexOfSavedDay = history.getDayList().indexOf(previousDay);
+                    dayAlreadySaved = true;
+                }
+            }
+
+            if(!dayAlreadySaved){
+                history.addDay(user.getCurrentDay());
+                Toast.makeText(getContext(),"Your day was added to the history",Toast.LENGTH_SHORT).show();
+            } else {
+                history.getDayList().set(indexOfSavedDay, user.getCurrentDay());
+                Toast.makeText(getContext(),"Your day was updated in the history",Toast.LENGTH_SHORT).show();
+            }
+
+            try {
+                history.saveHistory(getActivity());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            displayUserDay();
+
+        });
+
+    }
+
+    public void displayUserDay(){
+
+        TextView dayDate = binding.editTextDate;
+        TextView dayDescription = binding.DayDescription;
+        TextView dayStatus = binding.dayStatus;
+        TextView happinessLevelText = binding.happinessLevelText;
+        SeekBar happinessLevel = binding.happinessLevel;
+
+        dayStatus.setText("Day Status : "+(user.getCurrentDay().isDayDone() ? "Saved" : "Not Saved"));
+
+        happinessLevel.incrementProgressBy(10);
+
+        dayDate.setText(user.getCurrentDay().getDate());
+        dayDescription.setText(user.getCurrentDay().getDaySummary());
+
+        String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
+        int happinessLevelValue = ((int) Math.round(user.getCurrentDay().getHappiness())/10);
+        if(happinessLevelValue == 6)
+            happinessLevelValue--;
+        happinessLevelText.setText("Happiness Level : "+happinessLevels[happinessLevelValue]);
+        happinessLevel.setProgress((int) user.getCurrentDay().getHappiness());
 
         recyclerView = binding.tasksList;
         RecyclerViewLayoutManager = new LinearLayoutManager(getActivity());
@@ -110,34 +173,6 @@ public class NewDayFragment extends Fragment {
 
         // Set adapter on recycler view
         recyclerView.setAdapter(tasksListAdapter);
-
-        binding.addTask.setOnClickListener(item -> {
-            displayDialogBox(getActivity(), (ViewGroup) view);
-
-        });
-
-        binding.validateDay.setOnClickListener(item -> {
-            History history = new History();
-            user.getCurrentDay().setDate(binding.editTextDate.getText().toString());
-            user.getCurrentDay().setDaySummary(binding.DayDescription.getText().toString());
-            user.getCurrentDay().setDayDone(true);
-            try {
-                history.getHistory(getActivity());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            history.addDay(user.getCurrentDay());
-            try {
-                history.saveHistory(getActivity());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
     }
 
     public void displayDialogBox(Activity activity, ViewGroup view){

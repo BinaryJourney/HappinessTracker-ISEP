@@ -24,6 +24,7 @@ import isep.fr.moneytracker.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -79,7 +80,22 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    history.addDay(user.getCurrentDay());
+
+                    boolean dayAlreadySaved = false;
+                    int indexOfSavedDay =0;
+                    for(Day previousDay:history.getDayList()){
+                        if(previousDay.getDate().equals(user.getCurrentDay().getDate())){
+                            indexOfSavedDay = history.getDayList().indexOf(previousDay);
+                            dayAlreadySaved = true;
+                        }
+                    }
+
+                    if(!dayAlreadySaved){
+                        history.addDay(user.getCurrentDay());
+                    } else {
+                        history.getDayList().set(indexOfSavedDay, user.getCurrentDay());
+                    }
+
                     try {
                         history.saveHistory(this);
                     } catch (JSONException e) {

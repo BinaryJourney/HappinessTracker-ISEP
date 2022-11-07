@@ -17,7 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -68,6 +73,18 @@ public class HistoryFragment extends Fragment {
             e.printStackTrace();
         }
         dayList = history.getDayList();
+
+        Collections.sort(dayList, new Comparator<Day>() {
+            DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+            @Override
+            public int compare(Day lhs, Day rhs) {
+                try {
+                    return f.parse(rhs.getDate()).compareTo(f.parse(lhs.getDate()));
+                } catch (ParseException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        });
 
         return binding.getRoot();
 

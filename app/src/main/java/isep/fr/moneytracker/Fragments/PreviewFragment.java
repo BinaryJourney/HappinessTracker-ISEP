@@ -134,12 +134,11 @@ public class PreviewFragment extends Fragment {
                 }
                 break;
             default:
-                System.out.println(dayList);
+                //System.out.println(dayList);
                 break;
         }
 
-        System.out.println("\n\n ALLO MICHEL !");
-        System.out.println(dayList);
+        //System.out.println(dayList);
 
         if(dayList != null){
             for(Day day:dayList){
@@ -185,6 +184,7 @@ public class PreviewFragment extends Fragment {
         tvSadness.setText(Integer.toString(counterSadness));
         tvHell.setText(Integer.toString(counterHell));
 
+        pieChart.clearChart();
         pieChart.addPieSlice(
                 new PieModel(
                         getResources().getString(R.string.pie_string_1),

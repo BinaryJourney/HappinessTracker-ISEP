@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"isep.fr.moneytracker"},{"l":"isep.fr.moneytracker.Adapters"},{"l":"isep.fr.moneytracker.Fragments"},{"l":"isep.fr.moneytracker.Objects"},{"l":"isep.fr.moneytracker.Tools"}]

@@ -21,12 +21,21 @@ import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.databinding.FragmentDayDescriptionBinding;
 
 
+/**
+ * The day description fragment is used to display the previously saved day. You can access via the History fragment.
+ */
 public class DayDescriptionFragment extends Fragment {
     private FragmentDayDescriptionBinding binding;
     private Day day;
     private HistoryFragment historyFragment;
     private RecyclerView recyclerView;
+    /**
+     * The Recycler view layout manager.
+     */
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
+    /**
+     * The Vertical layout.
+     */
     LinearLayoutManager VerticalLayout;
     private TasksListAdapter tasksListAdapter;
 
@@ -42,17 +51,20 @@ public class DayDescriptionFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        /*
+        Define all the key element in fragment
+         */
         TextView dayDate = binding.editTextDate;
         EditText dayDescription = binding.DayDescription;
         TextView happinessLevelText = binding.happinessLevelText;
         SeekBar happinessLevel = binding.happinessLevel;
         happinessLevel.incrementProgressBy(10);
 
-        //System.out.println(day);
-
+        //Display day attributes on the xml element
         dayDate.setText(day.getDate());
         dayDescription.setText(day.getDaySummary());
 
+        //Set the different level of happiness then adapt the progressBar based on the stored value.
         String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
         int happinessLevelValue = ((int) Math.round(day.getHappiness())/10);
         if(happinessLevelValue == 6)
@@ -60,6 +72,7 @@ public class DayDescriptionFragment extends Fragment {
         happinessLevelText.setText("Happiness Level : "+happinessLevels[happinessLevelValue]);
         happinessLevel.setProgress((int) day.getHappiness());
         happinessLevel.setEnabled(false);
+
 
         // Usefull to modify the levelOfHappiness later on
         /*
@@ -79,6 +92,9 @@ public class DayDescriptionFragment extends Fragment {
         });
          */
 
+        /*
+        Define the recyclerView and its adapter to display the saved taskList of the selected Day
+         */
         recyclerView = binding.tasksList;
         RecyclerViewLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -99,17 +115,31 @@ public class DayDescriptionFragment extends Fragment {
 
     }
 
+    /**
+     * Delete task in list.
+     *
+     * @param position the position
+     */
     public void deleteTaskInList(int position){
         day.getTaskList().remove(position);
         tasksListAdapter.notifyDataSetChanged();
     }
 
 
-
+    /**
+     * Sets day.
+     * This method allow the app to set the selected day before displaying the fragment
+     * @param day the day
+     */
     public void setDay(Day day) {
         this.day = day;
     }
 
+    /**
+     * Sets history fragment.
+     *
+     * @param historyFragment the history fragment
+     */
     public void setHistoryFragment(HistoryFragment historyFragment) {
         this.historyFragment = historyFragment;
     }
@@ -118,6 +148,6 @@ public class DayDescriptionFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        historyFragment.updateDay(day);
+        historyFragment.updateDay(day); // update the saved day if something was changed afterward
     }
 }

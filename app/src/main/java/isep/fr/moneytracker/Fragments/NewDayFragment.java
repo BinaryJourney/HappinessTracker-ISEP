@@ -30,12 +30,25 @@ import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.R;
 import isep.fr.moneytracker.databinding.FragmentNewDayBinding;
 
+/**
+ * The NewDayFragment is the fragment used by the user to input his current day, his happiness level, his tasks and a summary of his day.
+ */
 public class NewDayFragment extends Fragment {
     private FragmentNewDayBinding binding;
     private User user;
     private RecyclerView recyclerView;
+    /**
+     * The Recycler view layout manager.
+     * We use this layout manager to create a recyclerView that will be use to contains the tasks of the user as a vertical list.
+     */
     RecyclerView.LayoutManager RecyclerViewLayoutManager;
+    /**
+     * The Vertical layout.
+     */
     LinearLayoutManager VerticalLayout;
+    /**
+     * The adapter linked to the recycler view
+     */
     private CreateTasksListAdapter tasksListAdapter;
 
     @Override
@@ -43,7 +56,7 @@ public class NewDayFragment extends Fragment {
         binding = FragmentNewDayBinding.inflate(inflater, container, false);
 
         try {
-            user = new User(getActivity());
+            user = new User(getActivity()); //retrieve user profile from .json file
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -64,12 +77,16 @@ public class NewDayFragment extends Fragment {
         TextView happinessLevelText = binding.happinessLevelText;
         SeekBar happinessLevel = binding.happinessLevel;
 
+        /*
+        Display the user's current day information on the fragment
+         */
         displayUserDay();
 
+        //Set a behavior to the seekbar depending of the value of itself.
         happinessLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
+                String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"}; //Define every happiness level
 
                 happinessLevelText.setText("Happiness Level : "+happinessLevels[(i-1)/10]);
                 user.getCurrentDay().setHappiness(i);
@@ -83,14 +100,16 @@ public class NewDayFragment extends Fragment {
         });
 
 
-
+        //call dialog box to input a new task.
         binding.addTask.setOnClickListener(item -> {
             displayDialogBox(getActivity(), (ViewGroup) view);
 
         });
 
+        //If the user want to manually add his day to history
         binding.validateDay.setOnClickListener(item -> {
             History history = new History();
+            //Set the currentDay data based on the input of the user.
             user.getCurrentDay().setDate(binding.editTextDate.getText().toString());
             user.getCurrentDay().setDaySummary(binding.DayDescription.getText().toString());
             user.getCurrentDay().setDayDone(true);
@@ -103,6 +122,9 @@ public class NewDayFragment extends Fragment {
                 e.printStackTrace();
             }
 
+            /*
+            Check if a day already exist with the same date, if yes the day is updated if not the day is added to the list.
+             */
             boolean dayAlreadySaved = false;
             int indexOfSavedDay =0;
             for(Day previousDay:history.getDayList()){
@@ -128,12 +150,16 @@ public class NewDayFragment extends Fragment {
                 e.printStackTrace();
             }
 
+            //Update data displayed of fragment after saving the day.
             displayUserDay();
 
         });
 
     }
 
+    /**
+     * Display user day on the fragment element.
+     */
     public void displayUserDay(){
 
         TextView dayDate = binding.editTextDate;
@@ -156,6 +182,7 @@ public class NewDayFragment extends Fragment {
         happinessLevelText.setText("Happiness Level : "+happinessLevels[happinessLevelValue]);
         happinessLevel.setProgress((int) user.getCurrentDay().getHappiness());
 
+        //Set the recycler view adapter and link it with the user TaskList. This allow the app to refresh the list after a new task is added to it.
         recyclerView = binding.tasksList;
         RecyclerViewLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -166,7 +193,7 @@ public class NewDayFragment extends Fragment {
         // with source list as a parameter
         tasksListAdapter = new CreateTasksListAdapter(user.getCurrentDay().getTaskList(), getActivity(), true, this);
 
-        // Set Horizontal Layout Manager
+        // Set Vertical Layout Manager
         // for Recycler view
         VerticalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(VerticalLayout);
@@ -175,18 +202,28 @@ public class NewDayFragment extends Fragment {
         recyclerView.setAdapter(tasksListAdapter);
     }
 
+    /**
+     * Display dialog box.
+     *
+     * @param activity the activity
+     * @param view     the view
+     */
     public void displayDialogBox(Activity activity, ViewGroup view){
         Task task = new Task();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("Your Task");
 
-        View viewInflated = LayoutInflater.from(activity).inflate(R.layout.task_description_box, view, false);
+        View viewInflated = LayoutInflater.from(activity).inflate(R.layout.task_description_box, view, false);//Link the dialog box with the corresponding xml template
 
+        /*
+        Retrieve the useful EditText to later create the new task
+         */
         EditText taskName = viewInflated.findViewById(R.id.taskName);
         EditText taskDuTime = viewInflated.findViewById(R.id.taskDuTime);
         EditText taskDescription = viewInflated.findViewById(R.id.taskDescription);
 
+        //set the define xml layout on the dialog box
         builder.setView(viewInflated);
 
         // Set up the buttons
@@ -195,12 +232,14 @@ public class NewDayFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
+                //retrieve the data from the EditTexts and add them to the task object
                 task.setName(taskName.getText().toString());
                 task.setDuTime(taskDuTime.getText().toString());
                 task.setDescription(taskDescription.getText().toString());
                 task.setDone(false);
 
                 user.getCurrentDay().addTask(task);
+                //notify the recyclerView's adapter that the parameter list was changed.
                 tasksListAdapter.notifyDataSetChanged();
 
             }
@@ -216,22 +255,36 @@ public class NewDayFragment extends Fragment {
 
     }
 
+    /**
+     * Set task done.
+     *
+     * @param position the position
+     * @param taskDone the task done
+     */
     public void setTaskDone(int position, boolean taskDone){
         user.getCurrentDay().getTask(position).setDone(taskDone);
     }
 
+    /**
+     * Delete task in list.
+     *
+     * @param position the position
+     */
     public void deleteTaskInList(int position){
         user.getCurrentDay().getTaskList().remove(position);
         tasksListAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * This method is called when the fragment is destroyed, it is to automatically save the current inside the user profile .json file before quitting fragment.
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
         user.getCurrentDay().setDate(binding.editTextDate.getText().toString());
         user.getCurrentDay().setDaySummary(binding.DayDescription.getText().toString());
         try {
-            user.saveUser(getActivity());
+            user.saveUser(getActivity()); //save user to userProfile.json
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {

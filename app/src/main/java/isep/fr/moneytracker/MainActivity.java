@@ -1,50 +1,42 @@
 package isep.fr.moneytracker;
 
 import android.os.Bundle;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import isep.fr.moneytracker.Fragments.HistoryFragment;
 import isep.fr.moneytracker.Fragments.NewDayFragment;
 import isep.fr.moneytracker.Fragments.PreviewFragment;
-import isep.fr.moneytracker.Objects.Day;
-import isep.fr.moneytracker.Objects.History;
-import isep.fr.moneytracker.Objects.User;
 import isep.fr.moneytracker.databinding.ActivityMainBinding;
-
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import org.json.JSONException;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-
+/**
+ * The main activity is used to define the global UI of the app but also to setup the bottom navigation view. We chose to use a bottom navigation bar to navigate between the different fragments.
+ * We only have 3 different fragments, so it was well suited for our app.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    private BottomNavigationView bottomNavigationView;
 
+    /*
+    We define all the fragment we need at the top of the activity.
+    It will be easier to add them to the navigation bar system afterwards.
+     */
     private PreviewFragment previewFragment = new PreviewFragment();
     private HistoryFragment historyFragment = new HistoryFragment();
     private NewDayFragment newDayFragment = new NewDayFragment();
 
+    /**
+     * This method will define the basic behavior of the bottom navigation view and display the first fragment. The first fragment displayed can be define manually.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,97 +48,30 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        User user = null;
-        try {
-            user = new User(this);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if(user != null){
-            System.out.println(user.getCurrentDay().getDate());
-            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String currentDate = formatter.format(Calendar.getInstance().getTime());
-            if(!user.getCurrentDay().getDate().equals(currentDate)){
-                if(user.getCurrentDay().getDaySummary() != null){
-                    System.out.println("save previous day in history");
-                    History history = new History();
-                    try {
-                        history.getHistory(this);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    boolean dayAlreadySaved = false;
-                    int indexOfSavedDay =0;
-                    for(Day previousDay:history.getDayList()){
-                        if(previousDay.getDate().equals(user.getCurrentDay().getDate())){
-                            indexOfSavedDay = history.getDayList().indexOf(previousDay);
-                            dayAlreadySaved = true;
-                        }
-                    }
-
-                    if(!dayAlreadySaved){
-                        history.addDay(user.getCurrentDay());
-                    } else {
-                        history.getDayList().set(indexOfSavedDay, user.getCurrentDay());
-                    }
-
-                    try {
-                        history.saveHistory(this);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                System.out.println("Reset user current day");
-                user.setCurrentDay(new Day());
-                try {
-                    user.saveUser(this);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        //appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation); //get the bottom navigation view from the xml file.
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit(); //define the first displayed fragment
         bottomNavigationView.setSelectedItemId(R.id.Preview);
 
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.Preview:
-                        System.out.println("Preview");
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
-                        return true;
+        /*
+        In ths method, we will listen to the user touch on the bottom navigation view and define a behavior based on the user selection. On each button, the app will display the corresponding fragment.
+         */
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.Preview:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, previewFragment).commit();
+                    return true;
 
-                    case R.id.History:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, historyFragment).commit();
-                        return true;
+                case R.id.History:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, historyFragment).commit();
+                    return true;
 
-                    case R.id.Profile:
-                        System.out.println("Profile");
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, newDayFragment).commit();
-                        return true;
+                case R.id.Profile:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, newDayFragment).commit();
+                    return true;
 
-                }
-
-                return false;
             }
+
+            return false;
         });
     }
 
@@ -172,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This method setup the basic UI of the app. It will define the behavior of the status and navigation bar during the app usage.
+     */
     private void hideSystemUI(View decorView) {
         // Set the IMMERSIVE flag.
         // Set the content to appear under the system bars so that the content

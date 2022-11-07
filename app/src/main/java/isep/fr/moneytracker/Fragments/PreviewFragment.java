@@ -35,13 +35,42 @@ import isep.fr.moneytracker.Objects.History;
 import isep.fr.moneytracker.R;
 import isep.fr.moneytracker.databinding.FragmentPreviewBinding;
 
+/**
+ * The Preview fragment is the main screen of the app. It will be the summary of the user's usage of the application. It is here that is define the circle chart pie and the textual breakdown of the user's happiness.
+ */
 public class PreviewFragment extends Fragment {
 
     private FragmentPreviewBinding binding;
     private List<Day> dayList;
     private String selectedDateFilter = "All Time";
 
-    TextView tvUltimatePurpose, tvPassion, tvPleasure, tvBoring, tvSadness, tvHell;
+    /**
+     * The TextView ultimate purpose.
+     */
+    TextView tvUltimatePurpose,
+    /**
+     * The TextView passion.
+     */
+    tvPassion,
+    /**
+     * The TextView pleasure.
+     */
+    tvPleasure,
+    /**
+     * The TextView boring.
+     */
+    tvBoring,
+    /**
+     * The TextView sadness.
+     */
+    tvSadness,
+    /**
+     * The TextView hell.
+     */
+    tvHell;
+    /**
+     * The Pie chart.
+     */
     PieChart pieChart;
 
     @Override
@@ -52,6 +81,11 @@ public class PreviewFragment extends Fragment {
 
     }
 
+    /**
+     * This method is used to define the basic data of the fragment.
+     * The app will retrieve the data from the history object and adapt it before displaying it.
+     * @throws ParseException
+     */
     private void setData() throws ParseException {
 
         int counterUltimatePurpose = 0;
@@ -63,17 +97,21 @@ public class PreviewFragment extends Fragment {
 
         History history = new History();
         try {
-            history.getHistory(getActivity());
-            dayList = history.getDayList();
+            history.getHistory(getActivity()); //Retrieve all the Day object from history
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"};
+        dayList = history.getDayList(); //add history to dayList Object = List<Day>
 
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String[] happinessLevels =  {"Hell", "Sadness", "Boring", "Pleasure", "Passion", "Ultimate Purpose"}; //Define every level of happiness
+
+        /*
+        This section is really important to define the date format of the Day but also to allow the user to add some filter on top of the displayed data.
+         */
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); //Set the wanted format of date.
         Date currentDate = Calendar.getInstance().getTime();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -7);
@@ -85,11 +123,12 @@ public class PreviewFragment extends Fragment {
         cal.add(Calendar.YEAR, -1);
         Date minYearDate = cal.getTime();
         Date dateToProcess;
-        List<Day> datesToRemove = new ArrayList<>();
+        List<Day> datesToRemove = new ArrayList<>(); //Define a list of Day that will be removed afterwards
 
-        switch(selectedDateFilter) {
+
+        switch(selectedDateFilter) { //Apply the correct function depending of the selected filter : week, month, year, all time
             case "Week":
-                for(Day day:dayList) {
+                for(Day day:dayList){ //check if each Day validates the condition, if not it will be removed afterwards.
                     dateToProcess = new SimpleDateFormat("dd/MM/yyyy").parse(day.getDate());
                     int result1 = dateToProcess.compareTo(currentDate);
                     int result2 = dateToProcess.compareTo(minWeekDate);
@@ -104,7 +143,7 @@ public class PreviewFragment extends Fragment {
                 }
                 break;
             case "Month":
-                for(Day day:dayList) {
+                for(Day day:dayList) { //check if each Day validates the condition, if not it will be removed afterwards.
                     dateToProcess = new SimpleDateFormat("dd/MM/yyyy").parse(day.getDate());
                     int result1 = dateToProcess.compareTo(currentDate);
                     int result2 = dateToProcess.compareTo(minMonthDate);
@@ -119,7 +158,7 @@ public class PreviewFragment extends Fragment {
                 }
                 break;
             case "Year":
-                for(Day day:dayList) {
+                for(Day day:dayList) { //check if each Day validates the condition, if not it will be removed afterwards.
                     dateToProcess = new SimpleDateFormat("dd/MM/yyyy").parse(day.getDate());
                     int result1 = dateToProcess.compareTo(currentDate);
                     int result2 = dateToProcess.compareTo(minYearDate);
@@ -134,14 +173,12 @@ public class PreviewFragment extends Fragment {
                 }
                 break;
             default:
-                //System.out.println(dayList);
+                //If all-time filter is selected the app should be doing not adaptation on the list.
                 break;
         }
 
-        //System.out.println(dayList);
-
-        if(dayList != null){
-            for(Day day:dayList){
+        if(dayList != null){ //Check if the DayList is null, it could happen if the user didn't add any day at all.
+            for(Day day:dayList){ //Count the number of occurrence of each happiness level
                 int happinessLevelValue = ((int) Math.round(day.getHappiness())/10);
                 if(happinessLevelValue == 6)
                     happinessLevelValue--;
@@ -177,6 +214,9 @@ public class PreviewFragment extends Fragment {
             }
         }
 
+        /*
+        Set the TextView value based of the number of occurrence of each level of happiness.
+         */
         tvUltimatePurpose.setText(Integer.toString(counterUltimatePurpose));
         tvPassion.setText(Integer.toString(counterPassion));
         tvPleasure.setText(Integer.toString(counterPleasure));
@@ -184,7 +224,8 @@ public class PreviewFragment extends Fragment {
         tvSadness.setText(Integer.toString(counterSadness));
         tvHell.setText(Integer.toString(counterHell));
 
-        pieChart.clearChart();
+        //Add the values to the pieChart to convert the numerical data to a beautiful circle chart
+        pieChart.clearChart(); //Clear the chart of the previous data before changing it.
         pieChart.addPieSlice(
                 new PieModel(
                         getResources().getString(R.string.pie_string_1),
@@ -222,6 +263,9 @@ public class PreviewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        /*
+        Define all the useful TextView in the fragment
+         */
         tvUltimatePurpose = binding.tvUltimatePurpose;
         tvPassion = binding.tvPassion;
         tvPleasure = binding.tvPleasure;
@@ -230,6 +274,7 @@ public class PreviewFragment extends Fragment {
         tvHell = binding.tvHell;
         pieChart = binding.piechart;
 
+        //Define the filter spinner, to allow the user to filter his data.
         Spinner spinnerHappinessStat = (Spinner)binding.spinnerHappinessStat;
         ArrayAdapter<String> spinnerTypeArrayAdapter = new ArrayAdapter<String>(
                 getContext(),
@@ -237,13 +282,16 @@ public class PreviewFragment extends Fragment {
                 getResources().getStringArray(R.array.happinessDateFilterType));
         spinnerHappinessStat.setAdapter(spinnerTypeArrayAdapter);
 
+        /*
+        Create behavior based of the selection of a filter.
+         */
         spinnerHappinessStat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-                selectedDateFilter = parent.getItemAtPosition(position).toString();
+                selectedDateFilter = parent.getItemAtPosition(position).toString(); //Retrieve the selected filter value.
                 binding.happinessDataTitle.setText("Your " + selectedDateFilter + " Happiness Breakdown");
                 try {
-                    setData();
+                    setData(); //Update the data based of the selected filter.
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

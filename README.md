@@ -1,5 +1,5 @@
 # HappinessTracker-ISEP
-Par Delerue Arthur et Devigny Maxime &#128406
+Par Delerue Arthur et Devigny Maxime :vulcan_salute:
  
 TP pour cours de développement d'application mobile à l'ISEP en A3 à l'attention de Mr Baton.
 

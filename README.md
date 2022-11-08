@@ -1,7 +1,10 @@
-# MoneyTracker-ISEP
+# HappinessTracker-ISEP
+Par Delerue Arthur et Devigny Maxime
  
-0. Navbar en bas de l'appli pour navigation avec 3 categories : Ovrview / Mes Depenses / Profil
-1. Page Overview statique qui servira de page d'accueil. Camembert des depenses du mois en cours.
-2. Page mes Depenses. Liste des depenses chronologique, avec separation par mois. Filtrage selon type depenses.
-3. Page Profil. Ajout/Modif des categories. Definir budget. Alerte quand depenses le depasse.
-4. Button ajout (+) en bas a droite de l'ecran de manière constante. Il fera apparaitre une popup pour rentrer une dépense. (Bonus: Voice to text).
+TP pour cours de développement d'application mobile à l'ISEP en A3 à l'attention de Mr Baton.
+
+HappinessTracker permet de lister les taches de sa journée tout en comptabilisant le bonheur ressenti durant cette journée.
+L'utilisateur peut ensuite retrouver un récapitulatif de sa semaine/son mois/sa vie.
+
+Une documentation javadoc est disponible dans le dossier "documentation" du dépot.
+Le code comporte également de nombreux commentaires afin de faciliter sa compréhension.
